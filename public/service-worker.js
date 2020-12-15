@@ -16,25 +16,15 @@ const FILES_TO_CACHE = [
 
 self.addEventListener("install", function (evt) {
   evt.waitUntil(
+    caches.open(DATA_CACHE_NAME).then((cache) => cache.add("/api/transaction"))
+  );
+  evt.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("Your files were pre-cached successfully!");
-      return cache.addAll(FILES_TO_CACHE);
+      cache.addAll(FILES_TO_CACHE);
     })
   );
   self.skipWaiting();
 });
-
-// self.addEventListener("install", function (evt) {
-//   evt.waitUntil(
-//     caches.open(DATA_CACHE_NAME).then((cache) => cache.add("/api/transaction"))
-//   );
-//   evt.waitUntil(
-//     caches.open(CACHE_NAME).then((cache) => {
-//       cache.addAll(FILES_TO_CACHE);
-//     })
-//   );
-//   self.skipWaiting();
-// });
 
 self.addEventListener("activate", function (evt) {
   evt.waitUntil(
